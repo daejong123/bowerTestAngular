@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>service函数示例</title>
+</head>
+
+
+<body ng-controller="myController">
+  <input type="text" ng-model="n" ng-change="changeValue()">
+  {{ getn2() }}
+</body>
+
+
+<script type="text/javascript" src="js/lib/angular/angular.min.js"></script>
+<script>
+  let myApp = angular.module("myApp", []);
+
+  myApp.controller("myController", ["$scope", "MathService", function($scope, MathService) {
+    $scope.n = "10";
+    $scope.a = 100;
+    // 这里是引用传递(故可以双向绑定). 不是值传递[($scope.n = $scope.n * $scope.n)一瞬间的赋值]
+    $scope.getn2 = function() {
+      return MathService.power($scope.n);
+    };
+    $scope.changeValue = function() {
+      console.log($scope.n);
+    }
+  }]);
+
+  // 服务只会被实例化一次(单例模式). 必须直接使用类名打点调用里面的方法.
+  // 服务是惰性的, 只有当依赖这个服务的控制器被实例化的时候, 服务才会被实例化.
+  // 服务是单例的, 不管页面上有多少个控制器使用这个服务, 服务的实例永远只有一次.
+  // 创建一个服务, 这个就相当于是angular提供的$scope服务, 这里定义的是类, 还没有实例化, 需要注入后, 才可以使用.
+  myApp.service("MathService", [function() {
+    // 这个相当于是类的静态方法. 通过类名点方法调用使用.
+    this.power = function(a) {
+      return a * a;
+    };
+    this.b = 100; // 这个等价于静态变量. 也是通过类名点变量名调用. 可以在不同控制器之间共享.
+
+    var m = 3; // 闭包中的m, 这个等价于属性字段. 不可以通过类名来调用, 只能使用它对外暴露的接口.
+    // 给属性添加setter和getter方法, 对外暴露接口.
+    this.getM = function() {
+      return m;
+    };
+    this.setM = function(number) {
+      m = number;
+    }
+  }]);
+
+</script>
+</html>
