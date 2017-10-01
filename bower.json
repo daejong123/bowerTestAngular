@@ -1,0 +1,22 @@
+{
+  "name": "hello",
+  "authors": [
+    "daejong"
+  ],
+  "description": "这是第一个使用bower创建的项目",
+  "main": "",
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "^1.6.6",
+    "semantic": "semantic-ui#^2.2.13",
+    "mockjs": "^1.0.0"
+  }
+}

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Hello Angular</title>
+  <script src="js/lib/angular/angular.min.js" charset="utf-8"></script>
+</head>
+<body ng-controller="myController">
+  <input type="text" ng-model="name" />
+  <h1>{{ name }}</h1>
+  <h1>{{ value }}</h1>
+  <input type="button" value="+" ng-click="add()"/>
+  <input type="button" value="-" ng-click="minux()"/>
+
+  <script>
+    // 创建一个angular的module模块, 数组中表示该模块的依赖, 这里暂时留空, 以后会添加一些如: ui-router等等依赖.
+    let myApp = angular.module("myApp", []);
+    // 创建一个控制器, 用在ng-controller 表示该控制器被实例化.
+    // 创建时, 给该控制器注入服务$scope.
+    myApp.controller("myController", ["$scope", function($scope) {
+      $scope.name = "hello";
+      $scope.value = 100;
+      $scope.add = function() {
+        $scope.value++;
+      };
+      $scope.minux = function() {
+        $scope.value--;
+      }
+    }]);
+  </script>
+</body>
+</html>

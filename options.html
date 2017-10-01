@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>ng-options</title>
+</head>
+
+
+<body ng-controller="myController">
+
+  <select ng-model="value" ng-options="item for item in arr"></select>
+  <h1>{{ value }}</h1>
+
+  <hr>
+
+  <!-- 用item.code 作为item.city的绑定值, 提交等价于value=item.code -->
+  <select ng-model="value1" ng-options="item.code as item.city for item in arr1"></select>
+  <h1>{{ value1 }}</h1>
+
+  <hr>
+
+  <!-- 要提交的值 as 要显示的值 for item in arr -->
+  <select ng-model="value2" ng-options="value as key for (key, value ) in arr2"></select>
+  <h1>{{ value2 }}</h1>
+</body>
+
+
+<script src="js/lib/angular/angular.min.js" charset="utf-8"></script>
+<script>
+  let app = angular.module("myApp", []);
+  app.controller("myController", ["$scope", function($scope) {
+    // 指定默认值(即为需要提交的值)
+    $scope.arr = ["中国", "美国", "日本", "俄罗斯", "英国"];
+    $scope.value = $scope.arr[0];
+    $scope.arr1 = [{"city":"北京", "code":"110"}, {"city":"上海", "code":"120"}, {"city":"南京", "code":"130"}];
+    $scope.value1 = $scope.arr1[0]["code"];
+    $scope.arr2 = {"广州":"粤", "江苏":"苏", "海南":"海", "浙江":"浙"};
+    $scope.value2 = $scope.arr2["广州"];
+  }]);
+</script>
+</html>
