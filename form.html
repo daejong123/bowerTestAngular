@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>angular实现表单验证</title>
+  <link rel="stylesheet" href="js/lib/semantic/dist/semantic.min.css">
+  <style>
+     /*.ng-invalid {
+       background-color: #eee
+     }*/
+  </style>
+</head>
+<body ng-controller="myController" class="ui left aligned text container" style="margin-top:50px">
+
+<div class="ui grid">
+  <div class="two wide column"></div>
+  <div class="twelve wide column">
+    <div class="ui dividing header">后台登录系统</div>
+    <form name="myForm" class="ui form">
+      <!--  中文和英文: /^[\u4E00-\u9FA5A-Za-z]+$/-->
+      <!--  只能中文 /^[\u4E00-\u9FA5]+$/-->
+      <!--  只能中文, 2到10个字 /^[\u4E00-\u9FA5]{2,10}$/-->
+      <div class="ui field">
+        <label>* 姓名: </label>
+        <input type="text" name="name" required ng-model="formObj.name" ng-pattern="/^[\u4E00-\u9FA5]{2,10}$/">
+        <span ng-show="myForm.name.$error.required && myForm.name.$dirty" class="ui pointing red label">请填写用户名</span>
+        <span ng-show="myForm.name.$error.pattern" class="ui pointing red label">不合法的中文姓名</span>
+      </div>
+      <div class="ui field">
+        <label>* 年龄: </label>
+        <input type="number" name="age" required ng-model="formObj.age" max="40" min="18">
+        <span ng-show="myForm.age.$error.required && myForm.age.$dirty" class="ui pointing red label">请输入年龄</span>
+        <span ng-show="myForm.age.$error.max" class="ui pointing red label">年龄不能超过40</span>
+        <span ng-show="myForm.age.$error.min" class="ui pointing red label">年龄不能小于18</span>
+      </div>
+      <div class="ui field">
+        <label>* 密码: </label>
+        <input type="password" name="password" required ng-model="formObj.password" ng-minlength="6">
+        <span ng-show="myForm.password.$error.required && myForm.password.$dirty" class="ui pointing red label">请输入密码</span>
+        <span ng-show="myForm.password.$error.minlength" class="ui pointing red label">密码最少6位</span>
+        <span ng-show="myForm.password.$valid" class="ui pointing gray label">该密码强度: {{checkStrength(formObj.password)}}</span>
+      </div>
+      <div class="ui field">
+        <label>网址: </label>
+        <input type="url" name="url" ng-model="formObj.url">
+        <span ng-show="myForm.url.$error.url" class="ui pointing red label">不正确的网址格式</span>
+      </div>
+      <p>
+        <center>
+        <input type="button" class="ui blue button" value="提交" ng-disabled="myForm.$invalid">
+        <input type="reset" class="ui gray button" value="重置">
+        </center>
+      </p>
+    </form>
+    <div class="ui dividing header">测试--提交的数据如下:</div>
+    <h2>{{ formObj }}</h2>
+  </div>
+</div>
+
+
+</body>
+<script src="js/lib/angular/angular.min.js" charset="utf-8"></script>
+<script>
+  let myApp = angular.module("myApp", []);
+  myApp.controller("myController", ["$scope", function($scope) {
+    $scope.formObj = {};
+    $scope.checkStrength = function (val){
+      var aLvTxt = ['','低','中','高'];
+      if(!val) return ;
+      var lv = 0;
+      if(val.match(/[a-z]/g)){lv++;}
+      if(val.match(/[0-9]/g)){lv++;}
+      if(val.match(/(.[^a-z0-9])/g)){lv++;}
+      if(val.length < 6){lv=0;}
+      if(lv > 3){lv=3;}
+      return aLvTxt[lv];
+    };
+  }]);
+</script>
+</html>
