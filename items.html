@@ -1,0 +1,20 @@
+<div>
+  <h1>
+    商品展示 {{ name }}
+  </h1>
+  <div ng-repeat="item in color">
+    {{item}}
+  </div>
+  <div class="ui blue button" ng-click="jump()">首页</div>
+  <div class="ui blue button" ng-click="jumpOther()">其他</div>
+  <a ui-sref="about">关于</a>
+  <div>
+    <ul>
+      <li><a ui-sref="items.computer">电脑类</a></li>
+      <li><a ui-sref="items.phone">手机类</a></li>
+      <li><a ui-sref="items.other({type:111})">其他</a></li>
+    </ul>
+  </div>
+  <!-- 这是点击页面上的路由后显示内容的地方 -->
+  <div ui-view></div>
+</div>

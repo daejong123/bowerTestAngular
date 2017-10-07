@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="rootApp">
+<head>
+  <meta charset="UTF-8">
+  <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>index</title>
+  <link href="https://cdn.bootcss.com/semantic-ui/2.2.13/semantic.min.css" rel="stylesheet">
+  <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <link href="https://cdn.bootcss.com/semantic-ui/2.2.13/semantic.min.js" rel="stylesheet">
+  <script src="https://cdn.bootcss.com/angular.js/1.5.7/angular.min.js"></script>
+  <script src="https://cdn.bootcss.com/angular-ui-router/1.0.3/angular-ui-router.min.js"></script>
+  <script src="http://mockjs.com/dist/mock.js" charset="utf-8"></script>
+  <script src="./app.js" charset="utf-8"></script>
+</head>
+<body class="ui container" style="margin-top:50px;">
+
+
+<div class="ui secondary menu">
+  <h1>后台管理系统</h1>
+  <div class="right menu">
+    <a class="ui item">登出</a>
+  </div>
+</div>
+<div class="ui divider"></div>
+<div id="appContext" class="ui grid">
+  <div class="three wide column">
+    <div class="ui secondary vertical menu" style="width:100%">
+      <div class="ui segment">
+      <a class="active item" ui-sref="home" ui-sref-active="active">主页</a>
+      <a class="item" ui-sref="addUser" ui-sref-active="active">添加用户</a>
+      <a class="item" ui-sref="users" ui-sref-active="active">用户列表</a>
+      <a class="item" ui-sref="updatePassword" ui-sref-active="active">修改密码</a>
+      <a class="item" ui-sref="logOut" ui-sref-active="active">退出登录</a>
+      </div>
+    </div>
+  </div>
+  <div class="thirteen wide column">
+    <div class="container">
+      <!-- 一级路由 -->
+      <div ui-view></div>
+    </div>
+  </div>
+</div>
+
+</html>

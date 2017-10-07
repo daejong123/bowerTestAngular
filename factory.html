@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>factory示例</title>
+  <link rel="stylesheet" href="js/lib/semantic/dist/semantic.min.css">
+</head>
+<body ng-controller="myController" class="ui container" style="margin-top:50px">
+
+  <div class="ui dividing header">facotry函数</div>
+  <div class="ui text segment">使用myApp.factory()定义一个工厂, 也是一个服务, 返回一个对象的函数, 就是工厂, 和service一样都是惰性的的, 即单例的.
+  但是factory必须要return一个对象.</div>
+  <div class="ui segment">
+    1. service()定义的是构造方法, 服务名称一般大写, 里面可以用this来定义属性和方法, 但是记住, 定义的是类属性和类方法, 用的时候类名打点调用
+  </div>
+  <div class="ui segment">
+    1. factory()定义的是一个工厂, 工厂就会返回一个对象, 返回的就是一个api清单, 更显得清晰, factory中不能用this定义属性,方法, 必须用return来返回, 封装性更好.
+  </div>
+
+  <input type="button"  value="-" ng-click="decrease()">
+  {{ getA() }} <!-- 这里必须用方法返回, 才能脏值检测, 如果用属性, 就是简单的赋值, 不能更新. -->
+  <input type="button" value="+" ng-click="increase()">
+</body>
+
+
+<script src="js/lib/angular/angular.min.js" charset="utf-8"></script>
+<script>
+  var app = angular.module("myApp", []);
+  app.controller("myController", ["$scope", "mathService", function($scope, mathService) {
+    // alert(mathService.a);
+    //
+    <!-- 这里必须用方法返回, 才能脏值检测, 如果用属性, 就是简单的赋值, 不能更新. -->
+    // $scope.getA = mathService.getA(); //这里只是简单的赋值, 不能进行脏值检测.
+    $scope.getA = function() {
+      return mathService.getA();
+    }
+
+    $scope.decrease = mathService.minus;
+
+    $scope.increase = function () {
+      mathService.add();
+    }
+  }]);
+
+  // factory使用的最多. 更好的封装性.
+  //定义一个服务, factory没有this. service有this
+  app.factory("mathService", [function() {
+    //这里可以定义私有的
+    var a = 10;
+    function add() {
+       ++a;
+    }
+    function minus() {
+       --a;
+    }
+    function getA() {
+      return a;
+    }
+
+    //在return里面暴露这个方法的api, 是这个方法的api清单.
+    return {
+      // a : 1,
+      add : add,
+      minus : minus,
+      getA : getA
+    }
+  }]);
+</script>
+</html>

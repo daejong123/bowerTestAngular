@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>angular-ui-router示例</title>
+  <link href="https://cdn.bootcss.com/semantic-ui/2.2.13/semantic.min.css" rel="stylesheet">
+  <script src="https://cdn.bootcss.com/angular.js/1.5.7/angular.min.js"></script>
+  <script src="https://cdn.bootcss.com/angular-ui-router/1.0.3/angular-ui-router.min.js"></script>
+
+  <style>
+    footer {
+      position: absolute;
+      bottom: 100px;
+      left: 0;
+    }
+    .active {
+      color: red
+    }
+  </style>
+</head>
+<body ng-controller="myController">
+  <div ui-view></div>
+  <footer>
+    <a ui-sref="home" ui-sref-active="active">home</a>
+    <a ui-sref="about" ui-sref-active="active">about</a>
+    <a ui-sref="items" ui-sref-active="active">items</a>
+  </footer>
+</body>
+<script>
+  var app = angular.module("myApp", ["ui.router"]);
+  app.controller("myController", ["$scope", function($scope) {
+
+  }]);
+  //配置路由规则
+  app.config(["$stateProvider", "$urlRouterProvider", function($stateProvider, $urlRouterProvider) {
+    $stateProvider.state("home", {
+      url : "/home",
+      template: "<h1>home</home>"
+    }).state("about", {
+      url : "/about",
+      template: "<h1>about</home>"
+    }).state("items", {
+      url: "/items",
+      templateUrl : "./items.html",
+      controller: ["$scope", "$state", function($scope, $state) {
+        $scope.name = "daejong";
+        $scope.color = ["red", "blue", "green"];
+        $scope.jump = function() {
+          $state.go("home");
+        };
+        $scope.jumpOther = function() {
+          $state.go("items.other", {
+            type:1
+          })
+        };
+      }]
+    }).state("items.computer", {
+      url:"/computer",
+      template:"<h1>这是电脑类</h1>"
+    }).state("items.phone", {
+      url:"/phone",
+      template:"<h1>这是手机类</h1>"
+    }).state("items.other", {
+      url:"/other/:type",
+      template:"<h1>其他</h1>",
+      controller:["$scope","$stateParams",function($scope, $stateParams) {
+        console.log($stateParams);
+      }]
+    });
+    //默认状态下 将路由重定向home
+    $urlRouterProvider.otherwise("home");
+  }]);
+</script>
+</html>

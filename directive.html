@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>指令学习</title>
+  <link rel="stylesheet" href="js/lib/semantic/dist/semantic.min.css">
+</head>
+
+<body ng-controller="myController" class="ui container">
+  <div my-directive>第一</div>
+  <my-directive></my-directive>
+  <my-directive2></my-directive2>
+  <table class="ui selectable celled striped center table center aligned">
+    <thead>
+      <tr>
+        <th>学号</th>
+        <th>姓名</th>
+        <th>年龄</th>
+        <th>手机号</th>
+        <th>成绩</th>
+        <th>城市</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="item in data">
+        <td>{{item.id}}</td>
+        <td>{{item.name}}</td>
+        <td>{{item.age}}</td>
+        <td>{{item.phone}}</td>
+        <td>{{item.grade}}</td>
+        <td>{{item.city}}</td>
+      </tr>
+    </tbody>
+  </table>
+</body>
+
+
+<script src="https://cdn.bootcss.com/angular.js/1.5.7/angular.min.js" charset="utf-8"></script>
+<script src="js/lib/jquery/dist/jquery.min.js"></script>
+<script src="http://mockjs.com/dist/mock.js" charset="utf-8"></script>
+
+
+
+<script>
+
+  //利用Mock截获ajax请求所返回的数据.
+  var data = Mock.mock("http://daejong.com/getItems", {
+  'items|10': [{
+    'id|+1': 2120142000, //从2120142000开始
+    'name': '@cname', //中文名字
+    'age|18-28': 0,   // 18至28以内随机整数, 0只是用来确定类型
+    'city': '@city(true)',   // 中国城市
+    'phone|1':/^1[0-9]{10}$/,
+    'color': '@color',  // 16进制颜色
+    'grade|60-100': 0,   // 18至28以内随机整数, 0只是用来确定类型
+  }]
+  });
+
+  var app = angular.module("myApp", []);
+  app.controller("myController", ["$scope", "$http","$timeout", function($scope, $http, $timeout) {
+
+    // 使用mock产生模拟数据.
+    $http.get("http://daejong.com/getItems").success(function(res){
+        console.log(res);
+        $scope.data = res.items;
+    });
+
+
+    // nginx跨域请求麻烦.
+    // $http.jsonp("https://api.douban.com/v2/movie/in_theaters").success(function(res) {
+    //     console.log(res);
+    // });
+    // 退而其次直接使用ajax
+    // $.ajax({
+    //   url:'https://api.douban.com/v2/movie/in_theaters',
+    //   type:"get",
+    //   async:false,
+    //   dataType:"jsonp",
+    //   success:function(res) {
+    //     // $scope.data = res;
+    //     $timeout(function() {
+    //       $scope.data = res;
+    //     }, 1);
+    //     console.log(res);
+    //   }
+    // });
+  }]);
+
+  //定义一个指令. 类似一个组件.
+  app.directive("myDirective", [function() {
+    //返回一个指令定义对象.
+    return {
+      template : "<h1>你好</h1>"
+    }
+  }]);
+
+  //定义一个指令. 类似一个组件.
+  app.directive("myDirective2", [function() {
+    //返回一个指令定义对象.
+    return {
+      restrict : "AE", //默认是就是a属性, e标签级别.
+      templateUrl : "./template/myDiect.html"
+    }
+  }]);
+</script>
+</html>

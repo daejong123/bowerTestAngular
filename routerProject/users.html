@@ -1,0 +1,27 @@
+<div>
+  <div class="ui dividing header">
+    用户信息如下:
+  </div>
+  <table class="ui selectable celled striped center table center aligned">
+    <thead>
+      <tr>
+        <th>学号</th>
+        <th>姓名</th>
+        <th>年龄</th>
+        <th>手机号</th>
+        <th>成绩</th>
+        <th>城市</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="item in data">
+        <td>{{item.id}}</td>
+        <td>{{item.name}}</td>
+        <td>{{item.age}}</td>
+        <td>{{item.phone}}</td>
+        <td>{{item.grade}}</td>
+        <td>{{item.city}}</td>
+      </tr>
+    </tbody>
+  </table>`
+</div>

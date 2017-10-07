@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>constant函数</title>
+  <link rel="stylesheet" href="js/lib/semantic/dist/semantic.min.css">
+</head>
+<body ng-controller="myController">
+
+</body>
+<script src="js/lib/angular/angular.min.js" charset="utf-8"></script>
+<script>
+  var app = angular.module("myApp", []);
+  app.controller("myController", ["$scope", "constService", function($scope, constService) {
+    alert(constService.friend.name);
+  }]);
+
+  // 定义个常量, 这也是单例的, 返回的是一个引用的值. 可以同步修改.
+  app.constant("constService", {
+    name : "daejong",
+    friend : {
+      name : "dottie",
+      age : 22
+    }
+  });
+</script>
+</html>
